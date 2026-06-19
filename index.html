@@ -3,254 +3,297 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>👑 Tom King Ludo</title>
+<title>6 Friends Ludo 🎲</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Orbitron:wght@700&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-background:linear-gradient(135deg,#667eea 0%,#764ba2 25%,#f093fb 50%,#f5576c 75%,#4facfe 100%);
-min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:15px;
-font-family:'Orbitron',sans-serif;color:#fff
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Comic Sans MS', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  min-height: 100vh;
 }
-.start-screen{
-position:fixed;top:0;left:0;width:100%;height:100%;
-background:radial-gradient(circle,#000428,#004e92);z-index:999;
-display:flex;flex-direction:column;justify-content:center;align-items:center;
-animation:fadeIn 1s
+h1 {
+  color: #fff;
+  text-shadow: 3px 3px 6px #000;
+  margin: 10px 0;
+  font-size: 28px;
 }
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.start-screen h1{
-font-family:'Bungee',cursive;font-size:4rem;color:gold;
-text-shadow:0 0 20px gold,0 0 40px orange,5px 5px 10px #000;
-animation:glow 2s ease-in-out infinite
+#setup {
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  margin-bottom: 15px;
 }
-@keyframes glow{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-.start-screen p{font-size:1.5rem;margin-top:20px;color:#fff;text-shadow:2px 2px 4px #000}
-.start-screen button{
-margin-top:40px;padding:20px 50px;font-size:1.5rem;
-background:linear-gradient(45deg,gold,orange);border:none;border-radius:50px;
-cursor:pointer;font-weight:bold;color:#000;box-shadow:0 10px 30px rgba(255,215,0,0.6);
-transition:0.3s;font-family:'Bungee',cursive
+#board {
+  display: grid;
+  grid-template-columns: repeat(15, 25px);
+  grid-template-rows: repeat(15, 25px);
+  gap: 2px;
+  background: #333;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
 }
-.start-screen button:hover{transform:scale(1.1) rotate(-5deg)}
-#game{display:none;flex-wrap:wrap;gap:20px;justify-content:center;max-width:1300px}
-#board{
-width:90vmin;height:90vmin;max-width:580px;max-height:580px;
-background:linear-gradient(135deg,#f5f7fa,#c3cfe2);
-border:15px solid #2c3e50;border-radius:30px;
-display:grid;grid-template:repeat(15,1fr)/repeat(15,1fr);
-gap:2px;padding:10px;box-shadow:0 25px 50px rgba(0,0,0,0.5)
+.cell {
+  width: 25px;
+  height: 25px;
+  background: #f0f0f0;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  position: relative;
 }
-.cell{
-background:#fff;border:2px solid #bdc3c7;border-radius:8px;
-display:flex;align-items:center;justify-content:center;font-size:2rem;
-position:relative;transition:0.2s
+.home { border-radius: 10px; }
+.red-home { background: #ffcccc; }
+.green-home { background: #ccffcc; }
+.yellow-home { background: #ffffcc; }
+.blue-home { background: #ccccff; }
+.purple-home { background: #e6ccff; }
+.orange-home { background: #ffddcc; }
+.safe { background: #ffe066; }
+.path { background: #fff; }
+.center { background: #ffd700; font-size: 20px; }
+.goti {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  animation: bounce 0.5s;
 }
-.cell:hover{background:#ecf0f1;transform:scale(1.05)}
-.safe{background:radial-gradient(circle,gold,#ffeb3b)!important;box-shadow:inset 0 0 15px orange}
-.tom-home{background:linear-gradient(135deg,#ff4d4d,#c0392b);border:4px solid #922b21}
-.blue-home{background:linear-gradient(135deg,#3498db,#2980b9);border:4px solid #21618c}
-.green-home{background:linear-gradient(135deg,#2ecc71,#27ae60);border:4px solid #196f3d}
-.yellow-home{background:linear-gradient(135deg,#f1c40f,#f39c12);border:4px solid #b9770e}
-.purple-home{background:linear-gradient(135deg,#9b59b6,#8e44ad);border:4px solid #6c3483}
-.orange-home{background:linear-gradient(135deg,#e67e22,#d35400);border:4px solid #a04000}
-.pawn{
-width:88%;height:88%;border-radius:50%;border:4px solid #2c3e50;
-cursor:pointer;display:flex;align-items:center;justify-content:center;
-font-size:2.5rem;box-shadow:0 8px 16px rgba(0,0,0,0.6);
-transition:all 0.3s;animation:float 2s ease-in-out infinite
+@keyframes bounce {
+ 0%, 100% { transform: scale(1); }
+ 50% { transform: scale(1.3); }
 }
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-.pawn:hover{transform:scale(1.25) rotate(15deg);filter:brightness(1.3)}
-#panel{
-width:340px;background:rgba(255,255,255,0.98);border-radius:25px;
-padding:25px;border:5px solid gold;box-shadow:0 20px 40px rgba(0,0,0,0.4);
-color:#2c3e50
+.red { background: #ff4444; }
+.green { background: #44ff44; }
+.yellow { background: #ffff44; }
+.blue { background: #4444ff; }
+.purple { background: #aa44ff; }
+.orange { background: #ff8844; }
+#dice-box {
+  background: #fff;
+  padding: 15px;
+  border-radius: 15px;
+  margin-top: 15px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
-#turn-box{
-text-align:center;padding:18px;border-radius:18px;margin-bottom:20px;
-font-size:1.5rem;font-weight:bold;color:#fff;
-background:linear-gradient(135deg,#667eea,#764ba2);text-shadow:2px 2px 4px #000
+#dice {
+  font-size: 60px;
+  cursor: pointer;
+  transition: transform 0.3s;
 }
-#dice-box{text-align:center;margin:25px 0;cursor:pointer}
-#dice{
-font-size:8rem;display:inline-block;transition:transform 0.6s;
-filter:drop-shadow(0 10px 20px rgba(0,0,0,0.5))
+#dice:hover { transform: scale(1.1) rotate(10deg); }
+#dice.rolling { animation: roll 0.5s; }
+@keyframes roll {
+  0% { transform: rotate(0deg); }
+ 100% { transform: rotate(360deg); }
 }
-#dice.rolling{animation:spin 0.6s ease-in-out}
-@keyframes spin{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.3)}100%{transform:rotate(360deg) scale(1)}}
-button{
-width:100%;padding:16px;font-size:1.3rem;
-background:linear-gradient(135deg,#ff6b6b,#ee5a6f);color:#fff;
-border:none;border-radius:15px;cursor:pointer;font-weight:bold;
-margin:10px 0;box-shadow:0 6px 15px rgba(0,0,0,0.3);
-transition:0.3s;font-family:'Orbitron',sans-serif
+button {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 5px;
+  font-family: 'Comic Sans MS', cursive;
 }
-button:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,0,0,0.4)}
-button:disabled{background:#95a5a6;cursor:not-allowed;transform:none}
-#emoji-bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px;justify-content:center}
-.emoji-btn{
-width:auto;padding:12px 15px;font-size:1.8rem;
-background:linear-gradient(135deg,#74b9ff,#0984e3);border-radius:50%;
-border:none;color:#fff;cursor:pointer;transition:0.2s
+button:hover { background: #ff5252; }
+#turn {
+  color: #fff;
+  font-size: 18px;
+  margin: 10px;
+  text-shadow: 2px 2px 4px #000;
 }
-.emoji-btn:hover{transform:scale(1.2) rotate(10deg)}
-#log{
-height:180px;overflow-y:auto;background:#2c3e50;color:#ecf0f1;
-border-radius:15px;padding:12px;font-size:0.95rem;margin-top:15px;
-text-align:left;border:3px solid #34495e;font-family:'Orbitron',sans-serif
-}
-.log-entry{margin:5px 0;padding:8px;border-left:4px solid gold;background:rgba(255,255,255,0.1);border-radius:8px;animation:slideIn 0.3s}
-@keyframes slideIn{from{transform:translateX(-20px);opacity:0}to{transform:translateX(0);opacity:1}}
+select { padding: 8px; border-radius: 8px; font-size: 16px; }
 </style>
 </head>
 <body>
 
-<!-- Starting Screen with Your Name -->
-<div class="start-screen" id="startScreen">
-<h1>👑 TOM KING LUDO 👑</h1>
-<p>😼 The King of Ludo is Here! 😼</p>
-<button onclick="startGame()">START GAME 🎮</button>
+<h1>🎉 6 Friends Ludo 🎉</h1>
+
+<div id="setup">
+  <label>Players: </label>
+  <select id="players">
+    <option value="4">4 Players 👥</option>
+    <option value="5">5 Players 👥👤</option>
+    <option value="6">6 Players 👥👥</option>
+  </select>
+  <button onclick="startGame()">🚀 START GAME</button>
 </div>
 
-<div id="game">
+<div id="turn">Turn: Select players & press START 🎲</div>
+
 <div id="board"></div>
-<div id="panel">
-<div id="turn-box">😼 TOM KING ka Turn</div>
-<div id="dice-box"><div id="dice">🎲</div></div>
-<button id="rollBtn" onclick="rollDice()">🎲 ROLL DICE!</button>
-<div id="emoji-bar">
-<button class="emoji-btn" onclick="sendEmoji('😂')">😂</button>
-<button class="emoji-btn" onclick="sendEmoji('😼')">😼</button>
-<button class="emoji-btn" onclick="sendEmoji('👑')">👑</button>
-<button class="emoji-btn" onclick="sendEmoji('💥')">💥</button>
-<button class="emoji-btn" onclick="sendEmoji('🔥')">🔥</button>
-<button class="emoji-btn" onclick="sendEmoji('🏆')">🏆</button>
-<button class="emoji-btn" onclick="sendEmoji('⚡')">⚡</button>
-<button class="emoji-btn" onclick="sendEmoji('💀')">💀</button>
-</div>
-<div id="log"><div class="log-entry">👑 Tom King Ludo Started!</div></div>
-</div>
+
+<div id="dice-box">
+  <div id="dice" onclick="rollDice()">🎲</div>
+  <p>Tap Dice! Current: <span id="diceNum">-</span></p>
 </div>
 
 <script>
-const PLAYERS = 6; // 4 ya 5 karna ho to ye 4 kar do
-const TEAMS = ['😼','🔵','🟢','🟡','🟣','🟠'];
-const TEAM_NAMES = ['TOM KING','Blue','Green','Yellow','Purple','Orange'];
-const HOME_TYPES = ['tom','blue','green','yellow','purple','orange'];
-const TOM_PAWNS = ['😼','😾','🐱','😹']; // Sirf Tom wali gotiyan
-const START_POS = [0,13,26,39,52,65];
+let board = document.getElementById('board');
+let currentPlayer = 0;
+let diceValue = 0;
+let canMove = false;
+let players = 4;
+let gotis = {};
+let positions = {};
+let colors = ['red', 'green', 'yellow', 'blue', 'purple', 'orange'];
+let emojis = ['😀','😎','🥳','😍','🤩','😜'];
 
-let pos = Array(PLAYERS).fill().map(()=>Array(4).fill(-1));
-let current = 0;
-let dice = 0;
-let rolled = false;
-let movesLeft = 0;
-
-function startGame(){
-document.getElementById('startScreen').style.display='none';
-document.getElementById('game').style.display='flex';
-initBoard();
-updateBoard();
-log('👑 Welcome Tom King! Game shuru ho gaya!');
+function startGame() {
+  players = parseInt(document.getElementById('players').value);
+  document.getElementById('setup').style.display = 'none';
+  createBoard();
+  initGotis();
+  updateTurn();
 }
 
-const board = document.getElementById('board');
-function initBoard(){
-for(let i=0;i<225;i++){
-let cell = document.createElement('div');
-cell.className='cell';
-cell.id='cell'+i;
-board.appendChild(cell);
-}
-drawHomes();
+function createBoard() {
+  board.innerHTML = '';
+  for(let i=0; i<225; i++) {
+    let cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.id = 'c'+i;
+    board.appendChild(cell);
+  }
+
+  // Homes
+  for(let i=0; i<6; i++) {
+    for(let j=0; j<6; j++) {
+      if(i<2 && j<2) document.getElementById('c'+(i*15+j)).className += ' home red-home';
+      if(i<2 && j>12) document.getElementById('c'+(i*15+j)).className += ' home green-home';
+      if(i>12 && j<2) document.getElementById('c'+(i*15+j)).className += ' home yellow-home';
+      if(i>12 && j>12) document.getElementById('c'+(i*15+j)).className += ' home blue-home';
+      if(i>5 && i<9 && j>5 && j<9) document.getElementById('c'+(i*15+j)).className += ' center';
+    }
+  }
+
+  // Simple path
+  let path = [112,113,114,115,116,101,86,71,56,57,58,59,60,75,90,105,120,135,150,149,148,147,146,131,116,101,86,71,56,41,26,27,28,29,30,45,60,75,90,105,120,121,122,123,124,109,94,79,64,49,50,51,52,53,68,83,98,113,128,143,158,157,156,155,154,139,124,109,94,79,64,79,94,109,124,139,140,141,142,143];
+  path.forEach(p => {
+    if(document.getElementById('c'+p)) document.getElementById('c'+p).className = 'cell path';
+  });
+
+  // Safe zones
+  [58, 8, 98, 148, 218, 168].forEach(s => {
+    if(document.getElementById('c'+s)) document.getElementById('c'+s).className = 'cell safe';
+  });
 }
 
-function drawHomes(){
-for(let p=0;p<PLAYERS;p++){
-for(let i=0;i<4;i++){
-let r=Math.floor(START_POS[p]/15)+Math.floor(i/2)*2;
-let c=(START_POS[p]%15)+(i%2)*2;
-document.getElementById('cell'+(r*15+c)).className='cell '+HOME_TYPES[p]+'-home';
-}
-document.getElementById('cell'+START_POS[p]).classList.add('safe');
-}
-}
-
-function rollDice(){
-if(rolled)return;
-dice=Math.floor(Math.random()*6)+1;
-let d=document.getElementById('dice');
-d.classList.add('rolling');
-setTimeout(()=>{d.innerText=dice+' 🎲';d.classList.remove('rolling')},350);
-rolled=true;
-document.getElementById('rollBtn').disabled=true;
-log(${TEAMS[current]} ${TEAM_NAMES[current]} ne ${dice} roll kiya! 🎲);
-
-movesLeft = dice==6? 2 : canMove()? 1 : 0;
-if(dice==6) log('🎉 6 aya! Extra chance + ghar se niklo!');
-if(movesLeft==0) setTimeout(nextTurn,1600);
+function initGotis() {
+  for(let p=0; p<players; p++) {
+    gotis[p] = [];
+    positions[p] = [-1,-1,-1,-1]; // -1 means ghar me
+    for(let g=0; g<4; g++) {
+      gotis[p][g] = document.createElement('div');
+      gotis[p][g].className = 'goti '+colors[p];
+      gotis[p][g].innerHTML = emojis[p];
+      gotis[p][g].onclick = () => moveGoti(p,g);
+      let homePos = p*4 + g;
+      document.getElementById('c'+homePos).appendChild(gotis[p][g]);
+    }
+  }
 }
 
-function canMove(){
-if(dice==6 && pos[current].includes(-1)) return true;
-return pos[current].some(p=>p>=0 && p+dice<=56);
+function rollDice() {
+  if(canMove) return;
+  let dice = document.getElementById('dice');
+  dice.className = 'rolling';
+  setTimeout(() => {
+    diceValue = Math.floor(Math.random()*6)+1;
+    dice.innerHTML = ['🎲','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣'][diceValue];
+    document.getElementById('diceNum').innerText = diceValue;
+    dice.className = '';
+    canMove = true;
+    checkMoves();
+  }, 500);
 }
 
-function movePawn(idx){
-if(!rolled || movesLeft==0) return;
-let p = pos[current][idx];
-if(p==-1 && dice==6){
-pos[current][idx] = START_POS[current];
-log(🚀 ${TEAMS[current]} ka Tom bahar! Meow!);
-}else if(p>=0 && p+dice<=56){
-pos[current][idx] = p+dice;
-log(${TEAMS[current]} ka Tom ${dice} chala ⚡);
-checkKill(p+dice);
-if(dice!=6) movesLeft--;
-}else{alert('Ye move invalid hai Tom King! ❌');return}
-updateBoard();rolled=false;document.getElementById('rollBtn').disabled=false;
-if(movesLeft==0 && dice!=6) setTimeout(nextTurn,900);
-else if(dice==6){rolled=false;document.getElementById('rollBtn').disabled=false}
+function checkMoves() {
+  let hasMove = false;
+  for(let g=0; g<4; g++) {
+    if(positions[currentPlayer][g] == -1 && diceValue == 6) hasMove = true;
+    if(positions[currentPlayer][g] >= 0) hasMove = true;
+  }
+  if(!hasMove) nextTurn();
 }
 
-function checkKill(p){
-for(let pl=0;pl<PLAYERS;pl++){
-if(pl==current)continue;
-for(let i=0;i<4;i++){
-if(pos[pl][i]==p &&!START_POS.includes(p)){
-pos[pl][i]=-1;
-log(💥 BOOM! ${TEAMS[pl]} ka gota mar gaya! ${TEAMS[current]} Tom King ne mara!);
-}
-}}
+function moveGoti(p,g) {
+  if(p!= currentPlayer ||!canMove) return;
 
-function nextTurn(){
-current=(current+1)%PLAYERS;
-dice=0;rolled=false;movesLeft=0;
-document.getElementById('dice').innerText='🎲';
-document.getElementById('rollBtn').disabled=false;
-document.getElementById('turn-box').innerText=${TEAMS[current]} ${TEAM_NAMES[current]} ka Turn;
+  if(positions[p][g] == -1) {
+    if(diceValue == 6) {
+      positions[p][g] = 0;
+      updateBoard();
+      canMove = false;
+      if(diceValue!= 6) nextTurn();
+    }
+  } else {
+    positions[p][g] += diceValue;
+    if(positions[p][g] > 52) positions[p][g] = 52;
+    updateBoard();
+    canMove = false;
+
+    if(checkWin(p)) {
+      alert('🎉 Player '+colors[p].toUpperCase()+' JEET GAYA! 🏆');
+      location.reload();
+    }
+    if(diceValue!= 6) nextTurn();
+  }
 }
 
-function sendEmoji(e){log(${TEAMS[current]} sent: ${e})}
+function updateBoard() {
+  document.querySelectorAll('.cell').forEach(c => {
+    c.querySelectorAll('.goti').forEach(g => g.remove());
+  });
 
-function updateBoard(){
-document.querySelectorAll('.cell').forEach(c=>{
-if(!c.classList.contains('safe') &&!c.className.includes('home')) c.innerHTML='';
-});
-for(let p=0;p<PLAYERS;p++){
-for(let i=0;i<4;i++){
-let cellId = pos[p][i]==-1?
-'cell'+(Math.floor(START_POS[p]/15)*15+START_POS[p]%15+Math.floor(i/2)*2+i%2) :
-'cell'+pos[p][i];
-let cell=document.getElementById(cellId);
-if(cell && pos[p][i]>=0){
-let emoji = p==0? TOM_PAWNS[i] : TEAMS[p];
-cell.innerHTML=<div class="pawn" onclick="movePawn(${i})">${emoji}</div>;
+  for(let p=0; p<players; p++) {
+    for(let g=0; g<4; g++) {
+      let pos = positions[p][g];
+      if(pos >= 0) {
+        let cellId = 112 + pos; // simple path
+        if(cellId < 225) document.getElementById('c'+cellId).appendChild(gotis[p][g]);
+      } else {
+        let homePos = p*4 + g;
+        document.getElementById('c'+homePos).appendChild(gotis[p][g]);
+      }
+    }
+  }
 }
-function log(msg){
-document.getElementById('log').innerHTML=<div class="log-entry">${msg}</div>+document.getElementById('log').innerHTML;
+
+function nextTurn() {
+  currentPlayer = (currentPlayer + 1) % players;
+  diceValue = 0;
+  canMove = false;
+  document.getElementById('diceNum').innerText = '-';
+  document.getElementById('dice').innerHTML = '🎲';
+  updateTurn();
+}
+
+function updateTurn() {
+  document.getElementById('turn').innerHTML =
+    `🎯 Turn: <span style="color:${colors[currentPlayer]}">${colors[currentPlayer].toUpperCase()} ${emojis[currentPlayer]}</span> ka hai`;
+}
+
+function checkWin(p) {
+  return positions[p].every(pos => pos >= 52);
 }
 </script>
+
 </body>
 </html>
