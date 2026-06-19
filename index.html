@@ -3,594 +3,463 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎲 4-in-1 Fun Games · 2 or 4 Players</title>
+    <title>🌟 Ludo Star · 2-4 Players</title>
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
             margin: 0;
             padding: 0;
         }
         body {
-            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+            background: linear-gradient(145deg, #0f0c29, #1a1a3e, #24243e);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 1.5rem;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            padding: 1rem;
         }
-        .game-container {
-            max-width: 780px;
+        .game-wrapper {
+            background: #1e1e3f;
+            border-radius: 3rem;
+            padding: 2rem 2rem 2.2rem;
+            max-width: 750px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(6px);
-            border-radius: 3.5rem;
-            padding: 2rem 1.8rem 2.5rem;
-            box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.2s;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.06);
+            border: 1px solid #4a4a7a;
         }
-        h1 {
-            font-size: 2.1rem;
-            font-weight: 600;
-            letter-spacing: 1px;
+        .ludo-title {
             text-align: center;
-            color: #f0e9db;
-            text-shadow: 0 4px 12px #00000055;
-            margin-bottom: 0.75rem;
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #f7e05e;
+            text-shadow: 0 0 20px #f7b32b, 0 4px 0 #7a5a1a;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .ludo-title small {
+            font-size: 1rem;
+            background: #2a2a5a;
+            padding: 0.2rem 1.6rem;
+            border-radius: 60px;
+            color: #c8c8ff;
+            letter-spacing: 2px;
+            box-shadow: inset 0 -3px 0 #111133;
+        }
+        .player-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin: 0.8rem 0 1.2rem;
+        }
+        .player-indicators span {
+            background: #2c2c5e;
+            padding: 0.25rem 1.2rem;
+            border-radius: 60px;
+            color: #cfd0ff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 1px solid #555599;
+        }
+        .ludo-board {
+            background: #0f0f2a;
+            border-radius: 2.4rem;
+            padding: 1.8rem 1rem;
+            box-shadow: inset 0 8px 20px #000000aa;
+            border: 2px solid #4a4a7a;
+            margin: 0.8rem 0 1.2rem;
+        }
+        .status-area {
+            background: #141436;
+            border-radius: 60px;
+            padding: 0.7rem 1.6rem;
+            text-align: center;
+            color: #eaeaff;
+            font-weight: 500;
+            min-height: 3.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
+            border: 1px solid #4f4f86;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
-        h1 span {
-            background: #2a3a55;
-            padding: 0.2rem 1.1rem;
+        .status-area .turn-badge {
+            background: #2d2d70;
+            padding: 0.2rem 1.3rem;
             border-radius: 60px;
-            font-size: 1.2rem;
-            color: #b9d0ff;
-            box-shadow: inset 0 -2px 0 #3f5a7a;
+            color: #ffd966;
+            font-weight: 600;
         }
-        .player-badge {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin: 0.5rem 0 1.8rem;
-        }
-        .player-badge span {
-            background: #2b3c54;
-            padding: 0.3rem 1.5rem;
-            border-radius: 40px;
-            color: #d6e5ff;
-            font-weight: 500;
-            font-size: 0.95rem;
-            box-shadow: inset 0 -3px 0 #17212e;
-            letter-spacing: 0.3px;
-        }
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.2rem;
-            margin: 1.8rem 0 1.5rem;
-        }
-        .game-card {
-            background: #1f2b3c;
-            border-radius: 2.2rem;
-            padding: 1rem 0.5rem 1.3rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 8px 0 #0b1119, 0 8px 18px rgba(0,0,0,0.5);
-            border: 1px solid #3f4f66;
+        .dice-area {
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 0.8rem;
         }
-        .game-card:hover {
-            transform: scale(0.97);
-            background: #2b3d57;
-            border-color: #6b87b0;
-            box-shadow: 0 4px 0 #0b1119;
-        }
-        .game-card.active {
-            background: #2d4b6e;
-            border: 2px solid #b9d4ff;
-            box-shadow: 0 0 20px #3f7bc0;
-        }
-        .game-card .icon {
-            font-size: 2.8rem;
-            line-height: 1;
-            margin-bottom: 0.2rem;
-            filter: drop-shadow(0 4px 6px #00000066);
-        }
-        .game-card h3 {
-            color: #f0f4ff;
-            font-weight: 500;
-            font-size: 1.2rem;
-            letter-spacing: 0.2px;
-        }
-        .game-card p {
-            color: #a3bbdd;
-            font-size: 0.7rem;
-            background: #0f1a26;
-            padding: 0.2rem 0.9rem;
+        .dice-display {
+            font-size: 4.2rem;
+            background: #0b0b22;
+            padding: 0.2rem 2rem;
             border-radius: 30px;
-            margin-top: 4px;
-            font-weight: 500;
-        }
-        .play-area {
-            background: #16212e;
-            border-radius: 2.8rem;
-            padding: 1.8rem 0.8rem;
-            margin: 0.5rem 0 0.5rem;
-            border: 1px solid #3a4f66;
-            box-shadow: inset 0 6px 12px #0a111b;
-        }
-        #gameDisplay {
-            min-height: 150px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #eff6ff;
-            font-size: 1.1rem;
+            border: 2px solid #5a5a9a;
+            min-width: 120px;
             text-align: center;
-            gap: 0.9rem;
+            box-shadow: inset 0 -6px 0 #222255;
+            line-height: 1.2;
+            color: #ffffff;
         }
-        #gameDisplay .turn-indicator {
-            background: #1f3147;
-            padding: 0.3rem 1.6rem;
-            border-radius: 50px;
-            font-weight: 500;
-            color: #b5d0ff;
-            box-shadow: inset 0 -2px 0 #3f5a7a;
-        }
-        .choices {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.9rem;
-            margin: 0.7rem 0;
-        }
-        .choices button {
-            background: #1e3148;
+        .dice-btn {
+            background: #f7c948;
             border: none;
-            padding: 0.5rem 1.6rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 0.7rem 2.8rem;
             border-radius: 60px;
-            font-weight: 600;
-            color: #eaf0ff;
-            font-size: 1.2rem;
-            box-shadow: 0 6px 0 #0a121e, 0 4px 12px #00000055;
-            transition: all 0.06s linear;
-            cursor: pointer;
-            border: 1px solid #4d6785;
-            min-width: 80px;
-        }
-        .choices button:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #0a121e;
-        }
-        .choices button:disabled {
-            opacity: 0.4;
-            transform: translateY(3px);
-            box-shadow: 0 3px 0 #0a121e;
-            pointer-events: none;
-        }
-        #resetGameBtn {
-            background: #374d6b;
-            border: none;
-            padding: 0.7rem 2.2rem;
-            border-radius: 60px;
-            font-weight: 600;
-            color: white;
-            font-size: 1.1rem;
-            box-shadow: 0 6px 0 #16212e;
+            color: #1a1a3a;
+            box-shadow: 0 7px 0 #8a6f2a, 0 6px 18px #00000077;
             transition: 0.06s linear;
             cursor: pointer;
-            border: 1px solid #5a7a9e;
-            margin-top: 0.7rem;
+            letter-spacing: 1px;
+            border: 1px solid #fadd7a;
         }
-        #resetGameBtn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #16212e;
+        .dice-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #6a551f;
         }
-        .status-msg {
-            background: #0f1d2b;
-            padding: 0.5rem 1.8rem;
-            border-radius: 60px;
-            font-weight: 400;
-            color: #d3e3ff;
-            min-height: 3.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            border: 1px solid #3d5880;
-            width: 100%;
-            max-width: 380px;
-            margin: 0 auto;
+        .dice-btn:disabled {
+            opacity: 0.4;
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #6a551f;
+            pointer-events: none;
         }
-        .flex-row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            margin-top: 1.8rem;
+            text-align: center;
         }
-        .score-badge {
-            background: #1c2b3e;
-            border-radius: 60px;
-            padding: 0.3rem 1.5rem;
-            color: #b3ceff;
+        .score-item {
+            background: #1a1a44;
+            border-radius: 30px;
+            padding: 0.5rem 0.2rem;
+            border: 1px solid #4f4f86;
+            color: #d0d5ff;
             font-weight: 500;
         }
-        @media (max-width: 520px) {
-            .game-grid { gap: 0.8rem; }
-            .game-card .icon { font-size: 2.2rem; }
-            .game-card h3 { font-size: 1rem; }
+        .score-item .score-num {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffdb7c;
+        }
+        .reset-btn {
+            background: #3a3a7a;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.6rem 2.2rem;
+            border-radius: 60px;
+            font-size: 1rem;
+            box-shadow: 0 6px 0 #1a1a44;
+            transition: 0.06s linear;
+            cursor: pointer;
+            border: 1px solid #6a6aaa;
+            margin-top: 0.8rem;
+        }
+        .reset-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #1a1a44;
+        }
+        .footer-msg {
+            margin-top: 0.6rem;
+            font-size: 0.85rem;
+            color: #9a9acf;
+            text-align: center;
+        }
+        @media (max-width: 480px) {
+            .ludo-title { font-size: 1.8rem; }
+            .dice-display { font-size: 3rem; min-width: 80px; }
+            .score-grid { gap: 0.4rem; }
+        }
+        /* Ludo Star intro text */
+        .intro-text {
+            background: #151538;
+            border-radius: 60px;
+            padding: 0.8rem 1.5rem;
+            color: #f7e05e;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 3px;
+            text-shadow: 0 0 12px #f7b32b66;
+            border: 1px solid #f7b32b55;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .intro-text span {
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        .winner-highlight {
+            background: #f7b32b33;
+            border: 1px solid #f7b32b;
+            border-radius: 60px;
+            padding: 0.1rem 1.2rem;
+            color: #f7e05e;
         }
     </style>
 </head>
 <body>
-<div class="game-container">
-    <h1>
-        🎮 4‑in‑1
-        <span>2‑4 players</span>
-    </h1>
-    <div class="player-badge">
-        <span>👤 P1</span>
-        <span>👤 P2</span>
-        <span>👤 P3</span>
-        <span>👤 P4</span>
+<div class="game-wrapper">
+    <!-- Ludo Star Title + intro -->
+    <div class="ludo-title">
+        ⭐ LUDO STAR
+        <small>2-4 players</small>
     </div>
 
-    <!-- Game selection grid -->
-    <div class="game-grid" id="gameSelector">
-        <div class="game-card active" data-game="0">
-            <div class="icon">✊📄✂️</div>
-            <h3>Rock·Paper·Scissors</h3>
-            <p>2-4 players</p>
-        </div>
-        <div class="game-card" data-game="1">
-            <div class="icon">🎲🔢</div>
-            <h3>Higher / Lower</h3>
-            <p>2-4 players</p>
-        </div>
-        <div class="game-card" data-game="2">
-            <div class="icon">🧠❓</div>
-            <h3>Number Guesser</h3>
-            <p>2-4 players</p>
-        </div>
-        <div class="game-card" data-game="3">
-            <div class="icon">🔄🎯</div>
-            <h3>Spin & Win</h3>
-            <p>2-4 players</p>
-        </div>
+    <!-- Player indicators -->
+    <div class="player-indicators">
+        <span style="border-color:#ff6b6b;">🔴 P1</span>
+        <span style="border-color:#4ecdc4;">🟢 P2</span>
+        <span style="border-color:#ffe66d;">🟡 P3</span>
+        <span style="border-color:#4d9eff;">🔵 P4</span>
     </div>
 
-    <!-- Play area -->
-    <div class="play-area">
-        <div id="gameDisplay">
-            <div class="turn-indicator">🎯 Turn: Player 1</div>
-            <div class="status-msg" id="statusMsg">👋 Select a game and play!</div>
-            <div id="gameSpecificUI" class="choices"></div>
-            <div class="flex-row">
-                <button id="resetGameBtn">🔄 New Round</button>
-            </div>
+    <div class="ludo-board">
+        <!-- Intro / Ludo Star message -->
+        <div class="intro-text">
+            ⭐ Ludo Star ⭐ <span>— roll &amp; race!</span>
         </div>
+
+        <!-- Status -->
+        <div class="status-area" id="statusArea">
+            <span class="turn-badge" id="turnBadge">🎯 Player 1</span>
+            <span id="statusMessage">Roll the dice to start!</span>
+        </div>
+
+        <!-- Dice + actions -->
+        <div class="dice-area">
+            <div class="dice-display" id="diceDisplay">⚀</div>
+            <button class="dice-btn" id="rollDiceBtn">🎲 ROLL DICE</button>
+        </div>
+
+        <!-- Score / position grid -->
+        <div class="score-grid" id="scoreGrid">
+            <div class="score-item">🔴 P1 <div class="score-num" id="score0">0</div></div>
+            <div class="score-item">🟢 P2 <div class="score-num" id="score1">0</div></div>
+            <div class="score-item">🟡 P3 <div class="score-num" id="score2">0</div></div>
+            <div class="score-item">🔵 P4 <div class="score-num" id="score3">0</div></div>
+        </div>
+
+        <!-- Reset button -->
+        <div style="display: flex; justify-content: center;">
+            <button class="reset-btn" id="resetGameBtn">🔄 New Game</button>
+        </div>
+        <div class="footer-msg">⭐ First to reach 20 wins the Ludo Star!</div>
     </div>
 </div>
 
 <script>
-    (function(){
-        // ----- GAME ENGINE (4 players, 2 players work too) -----
-        const state = {
-            currentGame: 0,          // 0=RPS, 1=HigherLower, 2=NumberGuesser, 3=SpinWin
-            players: 4,
-            turn: 0,                // 0-based
-            scores: [0,0,0,0],
-            gameData: {},           // per-game data
+    (function LudoStarGame() {
+        // -------------------- CONFIG --------------------
+        const WIN_SCORE = 20;
+        const PLAYER_COUNT = 4;
+
+        // -------------------- STATE --------------------
+        let state = {
+            scores: [0, 0, 0, 0],
+            turn: 0,               // 0,1,2,3
             roundActive: true,
+            gameOver: false,
+            diceValue: 1,
+            waitingForRoll: true,  // true = player must roll
+            lastRoll: 0,
         };
 
         // DOM refs
-        const gameCards = document.querySelectorAll('.game-card');
-        const statusMsg = document.getElementById('statusMsg');
-        const gameSpecificUI = document.getElementById('gameSpecificUI');
+        const diceDisplay = document.getElementById('diceDisplay');
+        const rollBtn = document.getElementById('rollDiceBtn');
         const resetBtn = document.getElementById('resetGameBtn');
-        const turnIndicator = document.querySelector('.turn-indicator');
+        const turnBadge = document.getElementById('turnBadge');
+        const statusMsg = document.getElementById('statusMessage');
+        const scoreEls = [
+            document.getElementById('score0'),
+            document.getElementById('score1'),
+            document.getElementById('score2'),
+            document.getElementById('score3')
+        ];
 
-        // ---------- helper ----------
-        function updateTurnDisplay() {
-            if (!state.roundActive) {
-                turnIndicator.textContent = `🏁 Game Over`;
+        // Dice faces (Unicode)
+        const DICE_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+        // -------------------- HELPERS --------------------
+        function updateUI() {
+            // update scores
+            for (let i = 0; i < PLAYER_COUNT; i++) {
+                scoreEls[i].textContent = state.scores[i];
+            }
+            // turn badge
+            const p = state.turn + 1;
+            turnBadge.textContent = `🎯 Player ${p}`;
+            // dice
+            diceDisplay.textContent = DICE_FACES[state.diceValue - 1] || '⚀';
+
+            // status message based on game state
+            if (state.gameOver) {
+                const winnerIdx = state.scores.findIndex(s => s >= WIN_SCORE);
+                if (winnerIdx !== -1) {
+                    statusMsg.innerHTML = `🏆 <span class="winner-highlight">Player ${winnerIdx+1} WINS LUDO STAR!</span> 🏆`;
+                } else {
+                    statusMsg.textContent = '🏁 Game Over · Press New Game';
+                }
+                rollBtn.disabled = true;
                 return;
             }
-            const p = state.turn + 1;
-            turnIndicator.textContent = `🎯 Turn: Player ${p}`;
+
+            if (!state.roundActive) {
+                statusMsg.textContent = '⏳ Round over · press ROLL to continue';
+                rollBtn.disabled = false;
+                return;
+            }
+
+            // normal turn
+            if (state.waitingForRoll) {
+                statusMsg.textContent = `🎲 Player ${p}, roll the dice!`;
+                rollBtn.disabled = false;
+            } else {
+                statusMsg.textContent = `⏳ Waiting for roll...`;
+                rollBtn.disabled = true;
+            }
         }
 
-        function renderStatus(text, emoji = '💬') {
-            statusMsg.innerHTML = `${emoji} ${text}`;
+        // Check if any player reached win score
+        function checkGameOver() {
+            const winner = state.scores.findIndex(s => s >= WIN_SCORE);
+            if (winner !== -1) {
+                state.gameOver = true;
+                state.roundActive = false;
+                updateUI();
+                return true;
+            }
+            return false;
         }
 
-        // ---------- reset current game ----------
+        // Advance to next player (skip if game over)
+        function nextTurn() {
+            if (state.gameOver) return;
+            // move to next player (cyclic)
+            state.turn = (state.turn + 1) % PLAYER_COUNT;
+            state.waitingForRoll = true;
+            state.roundActive = true;
+            updateUI();
+        }
+
+        // -------------------- CORE: ROLL DICE --------------------
+        function handleRoll() {
+            // Validation
+            if (state.gameOver) {
+                statusMsg.textContent = '🏁 Game is over, press New Game';
+                return;
+            }
+            if (!state.roundActive) {
+                // start new round
+                state.roundActive = true;
+                state.waitingForRoll = true;
+                updateUI();
+                return;
+            }
+            if (!state.waitingForRoll) {
+                statusMsg.textContent = '⏳ Wait for your turn';
+                return;
+            }
+
+            // Roll dice (1-6)
+            const roll = Math.floor(Math.random() * 6) + 1;
+            state.diceValue = roll;
+            state.lastRoll = roll;
+
+            // Add to current player's score
+            const currentPlayer = state.turn;
+            state.scores[currentPlayer] += roll;
+
+            // Update dice display
+            diceDisplay.textContent = DICE_FACES[roll - 1];
+
+            // Check win condition
+            if (checkGameOver()) {
+                // game over, update UI
+                updateUI();
+                return;
+            }
+
+            // Feedback
+            statusMsg.textContent = `🎲 Player ${currentPlayer+1} rolled ${roll} · +${roll} points!`;
+
+            // Mark that player has rolled this turn
+            state.waitingForRoll = false;
+            // update scores
+            scoreEls[currentPlayer].textContent = state.scores[currentPlayer];
+
+            // After roll, automatically advance turn after short delay (better UX)
+            // But we want player to see the roll, then next turn.
+            // We'll set a small timeout to advance.
+            rollBtn.disabled = true; // disable during delay
+
+            setTimeout(() => {
+                // but check if game ended during timeout (should not)
+                if (state.gameOver) {
+                    updateUI();
+                    return;
+                }
+                // advance to next player
+                nextTurn();
+                // re-enable roll (if not gameover)
+                if (!state.gameOver) {
+                    rollBtn.disabled = false;
+                }
+                updateUI();
+            }, 600);
+        }
+
+        // -------------------- RESET GAME --------------------
         function resetGame() {
-            state.scores = [0,0,0,0];
+            state.scores = [0, 0, 0, 0];
             state.turn = 0;
             state.roundActive = true;
-            state.gameData = {};
-            // init game specific data
-            const g = state.currentGame;
-            if (g === 0) { // RPS
-                state.gameData.choices = [null,null,null,null];
-                state.gameData.roundResults = [];
-            } else if (g === 1) { // HigherLower
-                state.gameData.number = Math.floor(Math.random() * 10) + 1;
-                state.gameData.guesses = [null,null,null,null];
-            } else if (g === 2) { // NumberGuesser
-                state.gameData.target = Math.floor(Math.random() * 40) + 10; // 10-49
-                state.gameData.attempts = [null,null,null,null];
-            } else if (g === 3) { // SpinWin
-                state.gameData.spun = [false,false,false,false];
-                state.gameData.values = [0,0,0,0];
+            state.gameOver = false;
+            state.waitingForRoll = true;
+            state.diceValue = 1;
+            state.lastRoll = 0;
+
+            // reset UI
+            for (let i = 0; i < PLAYER_COUNT; i++) {
+                scoreEls[i].textContent = '0';
             }
-            updateTurnDisplay();
-            renderGameUI();
-            renderStatus(`Game ready · Player 1 starts`, '🔄');
+            diceDisplay.textContent = '⚀';
+            rollBtn.disabled = false;
+            updateUI();
+            statusMsg.textContent = '🔄 New game! Player 1 starts.';
+            turnBadge.textContent = '🎯 Player 1';
         }
 
-        // ---------- render game UI (choices) ----------
-        function renderGameUI() {
-            const g = state.currentGame;
-            const ui = gameSpecificUI;
-            ui.innerHTML = '';
-            if (!state.roundActive) {
-                ui.innerHTML = `<span style="color:#b3ceff;">🏁 Round finished · press "New Round"</span>`;
-                return;
-            }
-
-            if (g === 0) { // RPS
-                const btns = ['✊ Rock', '📄 Paper', '✂️ Scissors'];
-                btns.forEach(label => {
-                    const btn = document.createElement('button');
-                    btn.textContent = label;
-                    btn.addEventListener('click', () => handleRPS(label.split(' ')[1] || label));
-                    ui.appendChild(btn);
-                });
-                // show current player
-                const p = state.turn + 1;
-                renderStatus(`Player ${p} · choose your move`, '🤔');
-            } 
-            else if (g === 1) { // Higher/Lower
-                const p = state.turn + 1;
-                renderStatus(`Player ${p} · guess Higher/Lower (current: ${state.gameData.number})`, '🧐');
-                const higherBtn = document.createElement('button');
-                higherBtn.textContent = '⬆ Higher';
-                higherBtn.addEventListener('click', () => handleHigherLower('higher'));
-                const lowerBtn = document.createElement('button');
-                lowerBtn.textContent = '⬇ Lower';
-                lowerBtn.addEventListener('click', () => handleHigherLower('lower'));
-                ui.appendChild(higherBtn);
-                ui.appendChild(lowerBtn);
-            }
-            else if (g === 2) { // NumberGuesser
-                const p = state.turn + 1;
-                renderStatus(`Player ${p} · guess number (10-49)`, '🔢');
-                const input = document.createElement('input');
-                input.type = 'number';
-                input.min = 10;
-                input.max = 49;
-                input.placeholder = '10-49';
-                input.style.width = '90px';
-                input.style.padding = '0.5rem';
-                input.style.borderRadius = '40px';
-                input.style.border = 'none';
-                input.style.background = '#1e3148';
-                input.style.color = 'white';
-                input.style.textAlign = 'center';
-                const guessBtn = document.createElement('button');
-                guessBtn.textContent = '✅ Guess';
-                guessBtn.addEventListener('click', () => {
-                    const val = parseInt(input.value);
-                    if (!isNaN(val) && val >= 10 && val <= 49) {
-                        handleNumberGuesser(val);
-                    } else {
-                        renderStatus('Enter a number between 10-49', '⚠️');
-                    }
-                });
-                ui.appendChild(input);
-                ui.appendChild(guessBtn);
-            }
-            else if (g === 3) { // SpinWin
-                const p = state.turn + 1;
-                renderStatus(`Player ${p} · click SPIN!`, '🎰');
-                const spinBtn = document.createElement('button');
-                spinBtn.textContent = '🎲 SPIN';
-                spinBtn.style.fontSize = '1.8rem';
-                spinBtn.style.padding = '0.5rem 2.5rem';
-                spinBtn.addEventListener('click', handleSpinWin);
-                ui.appendChild(spinBtn);
-            }
-        }
-
-        // ---------- next turn / score update ----------
-        function advanceTurn() {
-            if (!state.roundActive) return;
-            // check if all players have played
-            const g = state.currentGame;
-            let allPlayed = false;
-            if (g === 0) {
-                allPlayed = state.gameData.choices.every(c => c !== null);
-            } else if (g === 1) {
-                allPlayed = state.gameData.guesses.every(g => g !== null);
-            } else if (g === 2) {
-                allPlayed = state.gameData.attempts.every(a => a !== null);
-            } else if (g === 3) {
-                allPlayed = state.gameData.spun.every(s => s === true);
-            }
-
-            if (allPlayed) {
-                state.roundActive = false;
-                updateTurnDisplay();
-                renderStatus('🎉 Round complete! Press "New Round"', '🏁');
-                gameSpecificUI.innerHTML = `<span style="color:#ffd966;">✨ All players played · see scores</span>`;
-                // show scores in status
-                let scoreStr = state.scores.map((s,i) => `P${i+1}: ${s}`).join('  ');
-                renderStatus(`Scores: ${scoreStr}`, '📊');
-                return;
-            }
-
-            // move to next player (skip players with 0 players? but we support 2-4, we just use 4 always)
-            let next = (state.turn + 1) % 4;
-            // skip if player is inactive? we support 4 always, but if only 2 players, we still have 4 slots, but we can skip empty? we keep all.
-            state.turn = next;
-            updateTurnDisplay();
-            renderGameUI();
-        }
-
-        // ---------- game handlers ----------
-        function handleRPS(choice) {
-            if (!state.roundActive) return;
-            const idx = state.turn;
-            const map = {'Rock':'✊','Paper':'📄','Scissors':'✂️'};
-            state.gameData.choices[idx] = choice;
-            renderStatus(`Player ${idx+1} chose ${map[choice] || choice}`, '👌');
-            // check if all choices in
-            const allIn = state.gameData.choices.every(c => c !== null);
-            if (allIn) {
-                // determine winner (standard RPS)
-                const choices = state.gameData.choices;
-                const winMap = { 'Rock': 'Scissors', 'Scissors': 'Paper', 'Paper': 'Rock' };
-                // count wins
-                let winCount = [0,0,0,0];
-                for (let i=0; i<4; i++) {
-                    for (let j=0; j<4; j++) {
-                        if (i===j) continue;
-                        if (choices[i] && choices[j] && winMap[choices[i]] === choices[j]) {
-                            winCount[i]++;
-                        }
-                    }
-                }
-                const maxWin = Math.max(...winCount);
-                if (maxWin === 0) {
-                    renderStatus('🤝 It\'s a tie! All equal?', '🤝');
-                } else {
-                    const winners = winCount.map((w,i) => w === maxWin ? i : -1).filter(i => i>=0);
-                    if (winners.length === 1) {
-                        const p = winners[0]+1;
-                        state.scores[winners[0]] += 1;
-                        renderStatus(`🏆 Player ${p} wins this round! +1 point`, '🎉');
-                    } else {
-                        const wStr = winners.map(w=>`P${w+1}`).join(' & ');
-                        winners.forEach(w => state.scores[w] += 1);
-                        renderStatus(`⚡ Tie between ${wStr} · each +1`, '🤝');
-                    }
-                }
-                // reset choices after round
-                state.gameData.choices = [null,null,null,null];
-                state.roundActive = false;
-                updateTurnDisplay();
-                gameSpecificUI.innerHTML = `<span style="color:#ffd966;">✅ Round over · New Round</span>`;
-                return;
-            }
-            // else advance turn
-            advanceTurn();
-        }
-
-        function handleHigherLower(guess) {
-            if (!state.roundActive) return;
-            const idx = state.turn;
-            const num = state.gameData.number;
-            const newNum = Math.floor(Math.random() * 10) + 1;
-            const higher = (newNum > num);
-            const won = (guess === 'higher' && higher) || (guess === 'lower' && !higher);
-            state.gameData.guesses[idx] = guess;
-            renderStatus(`Player ${idx+1} guessed ${guess} · new number ${newNum} (was ${num})`, won ? '✅' : '❌');
-            if (won) {
-                state.scores[idx] += 1;
-                renderStatus(`+1 point for Player ${idx+1}!`, '⭐');
-            } else {
-                renderStatus(`No point this time`, '😅');
-            }
-            state.gameData.number = newNum;
-            // advance
-            const allIn = state.gameData.guesses.every(g => g !== null);
-            if (allIn) {
-                state.gameData.guesses = [null,null,null,null];
-                state.roundActive = false;
-                updateTurnDisplay();
-                gameSpecificUI.innerHTML = `<span style="color:#ffd966;">✅ Round over · New Round</span>`;
-                return;
-            }
-            advanceTurn();
-        }
-
-        function handleNumberGuesser(val) {
-            if (!state.roundActive) return;
-            const idx = state.turn;
-            const target = state.gameData.target;
-            const diff = Math.abs(val - target);
-            let points = 0;
-            if (val === target) points = 3;
-            else if (diff <= 3) points = 2;
-            else if (diff <= 7) points = 1;
-            state.gameData.attempts[idx] = val;
-            state.scores[idx] += points;
-            renderStatus(`Player ${idx+1} guessed ${val} (target ${target}) · +${points} pts`, '🎯');
-            // check all played
-            const allIn = state.gameData.attempts.every(a => a !== null);
-            if (allIn) {
-                state.gameData.attempts = [null,null,null,null];
-                state.roundActive = false;
-                updateTurnDisplay();
-                gameSpecificUI.innerHTML = `<span style="color:#ffd966;">✅ Round over · New Round</span>`;
-                return;
-            }
-            advanceTurn();
-        }
-
-        function handleSpinWin() {
-            if (!state.roundActive) return;
-            const idx = state.turn;
-            const spinVal = Math.floor(Math.random() * 10) + 1; // 1-10
-            state.gameData.values[idx] = spinVal;
-            state.gameData.spun[idx] = true;
-            state.scores[idx] += spinVal; // add points
-            renderStatus(`Player ${idx+1} spun ${spinVal} · +${spinVal} pts`, '🎰');
-            const allIn = state.gameData.spun.every(s => s === true);
-            if (allIn) {
-                state.gameData.spun = [false,false,false,false];
-                state.gameData.values = [0,0,0,0];
-                state.roundActive = false;
-                updateTurnDisplay();
-                gameSpecificUI.innerHTML = `<span style="color:#ffd966;">✅ Round over · New Round</span>`;
-                return;
-            }
-            advanceTurn();
-        }
-
-        // ---------- game selection ----------
-        function selectGame(index) {
-            state.currentGame = index;
-            gameCards.forEach((card, i) => {
-                card.classList.toggle('active', i === index);
-            });
-            resetGame();
-        }
-
-        gameCards.forEach((card, idx) => {
-            card.addEventListener('click', () => selectGame(idx));
-        });
-
+        // -------------------- EVENT LISTENERS --------------------
+        rollBtn.addEventListener('click', handleRoll);
         resetBtn.addEventListener('click', resetGame);
 
-        // ---------- init ----------
+        // -------------------- INIT --------------------
         resetGame();
-        // set first game active
-        selectGame(0);
+
+        // extra: if only 2 or 3 players, we still support 4 slots, but it's fine
+        // we can add a tiny note
+        console.log('⭐ Ludo Star · 2-4 players · first to 20 wins');
     })();
 </script>
 </body>
