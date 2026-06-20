@@ -1,33 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Big Display</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        h1 {
-            font-size: 4em;
-            margin: 0;
-        }
-        p {
-            font-size: 2em;
-            margin-top: 20px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading...</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #000;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+#timer {
+  font-size: 80px;
+  text-align: center;
+}
+#hacked {
+  display: none;
+  text-align: center;
+  animation: blink 0.5s infinite;
+}
+#hacked h1 {
+  font-size: 40px;
+  color: #ff0000;
+  text-shadow: 0 0 20px #ff0000;
+  margin-bottom: 20px;
+}
+#hacked p {
+  font-size: 24px;
+  color: #00ff00;
+}
+@keyframes blink {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0.3; }
+}
+</style>
 </head>
 <body>
-    <h1>Aleesha Malik</h1>
-    <p>Welcome to Snark Shark City</p>
+
+<div id="timer">5</div>
+
+<div id="hacked">
+  <h1>👽 Mobile is hacked 👽</h1>
+  <p>This mobile is hacked</p>
+</div>
+
+<script>
+let count = 5;
+let timerDiv = document.getElementById('timer');
+let hackedDiv = document.getElementById('hacked');
+
+let interval = setInterval(() => {
+  count--;
+  timerDiv.innerText = count;
+  
+  if(count <= 0) {
+    clearInterval(interval);
+    timerDiv.style.display = 'none';
+    hackedDiv.style.display = 'block';
+    
+    // Fullscreen kar do mobile pe
+    if(document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    }
+  }
+}, 1000);
+</script>
+
 </body>
 </html>
